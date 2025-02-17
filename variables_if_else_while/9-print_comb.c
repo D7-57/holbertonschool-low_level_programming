@@ -3,9 +3,10 @@
 /**
  * main - Entry point of the program
  *
- * Description: This program prints all possible combinations
- * of single-digit numbers, separated by ", ", in ascending order.
- * Only the putchar function is used, and putchar is called a maximum of 4 times.
+ * Description: This program prints all possible combinations of
+ * single-digit numbers, separated by ", ", in ascending order.
+ * Only the putchar function is used, and putchar is called a
+ * maximum of 4 times.
  *
  * Return: Always 0 (Success)
  */
