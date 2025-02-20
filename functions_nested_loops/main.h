@@ -53,4 +53,14 @@ int _abs(int n);
  */
 int print_last_digit(int n);
 
+/**
+ * jack_bauer - Prints every minute of the day of Jack Bauer
+ */
+void jack_bauer(void);
+
+/**
+ * times_table - Prints the 9 times table starting with 0
+ */
+void times_table(void);
+
 #endif /* MAIN_H */
