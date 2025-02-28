@@ -2,7 +2,7 @@
 
 /**
  * _puts - Prints a string to stdout, followed by a new line.
- * @str: Pointer to the string.
+ * r: Pointer to the string.
  *
  * Description: Iterates through the string and prints each
  * character using _putchar. Ends with a newline character.
