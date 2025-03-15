@@ -20,6 +20,30 @@ int count_words(char *str)
 }
 
 /**
+ * allocate_word - Allocates and copies a word from the string.
+ * @str: The input string.
+ * @start: The starting index of the word.
+ * @length: The length of the word.
+ *
+ * Return: A pointer to the newly allocated word.
+ */
+char *allocate_word(char *str, int start, int length)
+{
+	char *word;
+	int i;
+
+	word = malloc((length + 1) * sizeof(char));
+	if (word == NULL)
+		return (NULL);
+
+	for (i = 0; i < length; i++)
+		word[i] = str[start + i];
+	word[length] = '\0';
+
+	return (word);
+}
+
+/**
  * strtow - Splits a string into words.
  * @str: The string to split.
  *
@@ -28,7 +52,7 @@ int count_words(char *str)
 char **strtow(char *str)
 {
 	char **words;
-	int i, j, k, word_count, word_len, start;
+	int i, j, word_count, word_len, start;
 
 	if (str == NULL || *str == '\0')
 		return (NULL);
@@ -45,16 +69,16 @@ char **strtow(char *str)
 	{
 		while (str[j] == ' ')
 			j++;
-
 		start = j;
 		word_len = 0;
+
 		while (str[j] != ' ' && str[j] != '\0')
 		{
 			word_len++;
 			j++;
 		}
 
-		words[i] = malloc((word_len + 1) * sizeof(char));
+		words[i] = allocate_word(str, start, word_len);
 		if (words[i] == NULL)
 		{
 			while (i >= 0)
@@ -62,11 +86,6 @@ char **strtow(char *str)
 			free(words);
 			return (NULL);
 		}
-
-		for (k = 0; k < word_len; k++)
-			words[i][k] = str[start + k];
-
-		words[i][word_len] = '\0';
 	}
 
 	words[word_count] = NULL;
