@@ -7,10 +7,10 @@
 #define BUF_SIZE 1024
 
 /**
- * print_error - Prints an error message and exits with given code
+ * print_error - Prints an error message to stderr and exits
  * @code: Exit code
- * @msg: Message format
- * @arg: Argument to insert into message
+ * @msg: Error message format (must include %s if using @arg)
+ * @arg: Argument to include in the message (e.g. file name)
  */
 void print_error(int code, const char *msg, const char *arg)
 {
@@ -19,11 +19,11 @@ void print_error(int code, const char *msg, const char *arg)
 }
 
 /**
- * main - Copies the content of one file to another
+ * main - Copies the content of a file to another file
  * @ac: Argument count
  * @av: Argument vector
  *
- * Return: 0 on success, exits with error code otherwise
+ * Return: 0 on success, exits with appropriate error code on failure
  */
 int main(int ac, char **av)
 {
@@ -31,7 +31,10 @@ int main(int ac, char **av)
 	char buffer[BUF_SIZE];
 
 	if (ac != 3)
-		print_error(97, "Usage: %s file_from file_to\n", av[0]);
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
+	}
 
 	fd_from = open(av[1], O_RDONLY);
 	if (fd_from == -1)
@@ -63,9 +66,16 @@ int main(int ac, char **av)
 	}
 
 	if (close(fd_from) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from), exit(100);
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
+		exit(100);
+	}
+
 	if (close(fd_to) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to), exit(100);
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
+		exit(100);
+	}
 
 	return (0);
 }
