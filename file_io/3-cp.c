@@ -47,18 +47,8 @@ int main(int ac, char **av)
 		print_error(99, "Error: Can't write to %s\n", av[2]);
 	}
 
-	while (1)
+	while ((r_bytes = read(fd_from, buffer, BUF_SIZE)) > 0)
 	{
-		r_bytes = read(fd_from, buffer, BUF_SIZE);
-		if (r_bytes == -1)
-		{
-			close(fd_from);
-			close(fd_to);
-			print_error(98, "Error: Can't read from file %s\n", av[1]);
-		}
-		if (r_bytes == 0)
-			break;
-
 		w_bytes = write(fd_to, buffer, r_bytes);
 		if (w_bytes == -1 || w_bytes != r_bytes)
 		{
@@ -66,6 +56,13 @@ int main(int ac, char **av)
 			close(fd_to);
 			print_error(99, "Error: Can't write to %s\n", av[2]);
 		}
+	}
+
+	if (r_bytes == -1)
+	{
+		close(fd_from);
+		close(fd_to);
+		print_error(98, "Error: Can't read from file %s\n", av[1]);
 	}
 
 	if (close(fd_from) == -1)
